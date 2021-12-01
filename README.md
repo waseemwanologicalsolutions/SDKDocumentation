@@ -218,6 +218,9 @@ Call this method if you want not see any output in console.
 IntemptClient.disableLogging()
 ```
 
+#### Tracking iOS14 and ATTTransportSecurity framework
+Intempt itself does not get IDFA and not use any data for “Tracking” By default. Data is not forwarded to any external services, and is not linked with any third-party data. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custome events which track user or share user data with other then you have to include it.
+
 ## Intempt Proximity
 ### ibeacon does not support Xcode iOS Simulator. You need a real device to test the ibeacon.
 Install an Intempt beacon At your preferable place. Add this SDK in your existing application. Thus it will help you to know about your entry and exit range.
