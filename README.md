@@ -77,12 +77,20 @@ import Intempt
 ```
 ### Objective C :
 
-If you are using Xcode 11.3 or above go to `SceneDelegate.m` file and paste the copied source snippet like the following:
+If you are using Xcode 11.3 or above go to `AppDelegate.m` file and paste the copied source snippet like the following:
 
 ``` objectivec
 @import Intempt;
-- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    [IntemptTracker trackingWithOrgId:@"Your Organization Id" andSourceId:@"Your Source ID" andToken:@"Your Token"];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Your code here
+    
+    //initalize intempt SDK
+    IntemptConfig *intemptConfig  = [[IntemptConfig alloc]initWithQueueEnabled:YES withItemsInQueue:7 withTimeBuffer:15 withInitialDelay:0.3 withInputTextCaptureDisabled:NO];
+    [IntemptTracker trackingWithOrgId:@"Your Organization Id" withSourceId:@"Your Source ID" withToken:@"Your Token" withConfig:intemptConfig onCompletion:^(BOOL status, id result, NSError *error) {
+        
+    }];
+    
+    return YES;
 }
 ```
 
@@ -92,7 +100,12 @@ Else you will have the `ViewController.m` file and then paste the copied source 
 @import Intempt
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [IntemptTracker trackingWithOrgId:@"Your Organization Id" andSourceId:@"Your Source ID" andToken:@"Your Token"];
+    
+     //initalize intempt SDK
+    IntemptConfig *intemptConfig  = [[IntemptConfig alloc]initWithQueueEnabled:YES withItemsInQueue:7 withTimeBuffer:15 withInitialDelay:0.3 withInputTextCaptureDisabled:NO];
+    [IntemptTracker trackingWithOrgId:@"Your Organization Id" withSourceId:@"Your Source ID" withToken:@"Your Token" withConfig:intemptConfig onCompletion:^(BOOL status, id result, NSError *error) {
+        
+    }];
 }
 ```
 **NOTE**: We used `playground` as Organization ID for testing purpose only. For live app you need to provide an actual Organization ID.
