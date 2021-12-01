@@ -118,13 +118,14 @@ To get your organization Id and source Id you need to create your account on htt
 
 ### Events Tracking
 
-IntemptSDK track different type events, some of these are default and some are custom, default events are automatically started tracking when SDK is initialize and for custom events developer have to write code whereever required. Below types events are in IntemptSDK
+IntemptSDK track different type events, some of these are default and some are custom, default events are automatically started tracking when SDK is initialized and for custom events developer have to write code whereever required. Below types events are in IntemptSDK
 - Application Launch Tracking (Default, automatically tracked)
 - Screen Tracking (Default, automatically tracked)
 - Interaction Tracking (Default, automatically tracked)
 - Consent (Default, automatically tracked)
 - Location (Depending on application, if user of the app has allowed location permission then country, city level location is tracked)
 - Identity (Manual, Developer have to implement it)
+- Custom (Developer have to create schema and implement in app)
 
 #### Get VisitorId From Framework
 
@@ -144,15 +145,17 @@ IntemptTracker.identify("test@example.com", withProperties: nil) { (status, erro
 #### Custom Event
 On using this a user can create a custom event based on the need of the project and can track the event details with that custom method.
 To add custom event below should be flow
--1 Visit the Intempt Console https://app.intempt.com/sources/
--2 Select Organization -> Source -> Schema
--3 Drag 'Add collection' from the right panel(Schema Builder) to the exisiting collections list
--5 Drag the 'Add field' to the added collection, add as many fields as required.
--6 Set field type carefully e.g if the data from app is string and field type set in int then there will be error.
--7 If you want to link the events with the visitor then add 'visitorId' as foreign key of 'Profile' collection
+
+- 1 Visit the Intempt Console https://app.intempt.com/sources/
+- 2 Select Organization -> Source -> Schema
+- 3 Drag 'Add collection' from the right panel(Schema Builder) to the exisiting collections list
+- 5 Drag the 'Add field' to the added collection, add as many fields as required.
+- 6 Set field type carefully e.g if the data from app is string and field type set in int then there will be error.
+- 7 If you want to link the events with the visitor then add 'visitorId' as foreign key of 'Profile' collection
 
 **Please becarefull when renaming, Collection and Field name 
 always start with small letter**
+
 <img width="1258" alt="6" src="https://user-images.githubusercontent.com/93919087/144252093-2047820a-5132-4b1f-8aac-08393b1c2001.png">
 
 
@@ -163,10 +166,18 @@ let arrayData = [{
                 "bookingId": "2",
                 "bookingStatus" : "booked"
               }]
-IntemptTracker.track("Online Hotel Booking", withProperties: arrHotelBooking as? [Any]) { (status, error) in
-	if(status) {
-		//Do something
-	}
+        IntemptTracker.track("flight-booking", withProperties: arrayData as? [Any]) { (status, result, error) in
+            if(status) {
+                if let dictResult = result as? [String: Any] {
+                    print(dictResult)
+                }
+            }
+            else {
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
 }             
 ```
 Schema of above example 'flight-booking' looks like below
@@ -178,6 +189,33 @@ Call this method if you want to disable capturing input texts like UItextField, 
 
 ```swift 
 IntemptTracker.disableTextInput(true)
+```
+
+#### Disable Default Event Tracking
+Call this method if you want to disable default tracking. This action is persistent, once disabled then developer must need to enable again when want to track default events again.
+
+```swift 
+IntemptClient.disableTracking()
+```
+
+#### Enable Default Event Tracking
+Call this method if you had disabled tracking and want to enable again.
+
+```swift 
+IntemptClient.enableTracking()
+```
+
+#### Enable Event Logging
+Call this method if you want to see the logs of all generated events, errors for debug purposes. By default logging is disabled
+
+```swift 
+IntemptClient.enableLogging()
+```
+#### Disable Event Logging
+Call this method if you want not see any output in console.
+
+```swift 
+IntemptClient.disableLogging()
 ```
 
 ## Intempt Proximity
@@ -281,22 +319,7 @@ Use this method when you want to identify using beacon API separately.
 The room you go to will get the entry and exit value of the room.
 
 
-## DemoTracking App
-1. Add the framework in the application. once it launches, it will show the following pop up. click on "Allow While Using App". Thus you are enabling the keys to track your location details.
 
-	![Allow While Using App](/screenshots/2.png)
-
-2. In the following demo application, after running it will display a Login Screen. On clicking the login button it fires the IdentifyVisitor function.
-
-	![IdentifyVisitor Function](/screenshots/3.png)
-
-3. Here on every touch event the tracker will fetch event details.
-
-	![Touch Event on App](/screenshots/4.png)
-
-4. On clicking payment button , purchase custom event will be fired in this project.
-
-	![Payment Button Click](/screenshots/5.png)
 
 
 
