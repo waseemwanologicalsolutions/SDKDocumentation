@@ -1,5 +1,5 @@
 
-# Intempt iOS Source
+# Intempt iOS SDK
 
 ## Requirements
 - iOS 12.0+
@@ -9,47 +9,48 @@
 ## Getting Started
 
 ### Integration :
-1. At first download code from https://github.com/intempt/ios-sdk.git). Then open the folder ios-source-master -> intempt.
-
-2. Next open **intempt.xcodeproj**, then select `Set the active scheme` to `Generic iOS Device` and build. 
-3. Again select `Set the active scheme` to `iPhone 11` and build. (Any Simulator can be selected as target) 
-4. Now change `Set the active scheme` to `Intempt-Universal` and `Generic iOS Device`
-5. Finally press `Product` ->  `Archieve` from Xcode menu (The idea is here to build a universal framework so that it can be used for real devices and simulators)
-
-6. A Finder will open right when archiving is done. Now right click on `Intempt.Framework` shortcut and press `Show Original Folder`.
-
-7. Drag & Drop `Intempt.Framework` in your iOS app.
+1. At first download sdk from https://github.com/intempt/ios-sdk.git). Then open the folder frameworks. There are three sdks in  this folder **'device' 'simulator'** and **'universal'**. 
+<img width="573" alt="1" src="https://user-images.githubusercontent.com/93919087/144225604-a6e8ca7e-9d0f-4210-ac21-c0d2bd8ac06f.png">
 
 
-8. `Intempt.framework` must set to `Embed & Sign`
+2. Open **universal** folder and Drag & Drop `Intempt.Framework` in your iOS app.
+<img width="1417" alt="2" src="https://user-images.githubusercontent.com/93919087/144225626-73c69b69-cc2f-4f91-8b46-e7d832871460.png">
+<img width="1244" alt="3" src="https://user-images.githubusercontent.com/93919087/144225684-83c33889-52e1-4f0f-adbb-1806cbb55d44.png">
 
-	![Embed & Sign](/screenshots/1.png)
+3. `Intempt.framework` must set to `Embed & Sign`
+<img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
 
-9. Open Project-->Edit Scheme->Unclick Debug Executable
 
-	![Embed & Sign](/screenshots/6.png)
-
-10. Next go to app's Info.plist file and add the privacy keys.
-
-| Key | Value |
-| ------ | ------ |
-| Privacy - Location Always Usage Description | Location used to track where you are |
-| Privacy - Location When In Use Usage Description | Location used to track where you are |
-| Privacy - Location Always and When In Use Usage Description | Location used to track where you are |
 
 
 ### Swift :
 If Xcode 11.3 or above
 
-Goto SceneDelegate.swift file
+Goto AppDelegate.swift file
 
 ``` swift
 import Intempt
-func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {       
-       IntemptTracker.tracking(withOrgId: "Your Organization Id", andSourceId: "Your Source ID", andToken: "Your Token")
-    
-       guard let _ = (scene as? UIWindowScene) else { return }
-   }
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        ///Your code here
+        
+        //Initialize Intempt SDK
+        let intemptConfig = IntemptConfig(queueEnabled: true, withItemsInQueue: 7, withTimeBuffer: 15, withInitialDelay: 0.3, withInputTextCaptureDisabled: false)
+        IntemptTracker.tracking(withOrgId: "Your Organization Id", withSourceId: "Your Source ID", withToken: "Your Token", withConfig: intemptConfig) { (status, result, error) in
+            if(status) {
+                if let dictResult = result as? [String: Any] {
+                    print(dictResult)
+                }
+            }
+            else {
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        return true
+    }
 ```
 Else you will have the `ViewController.swift` file and then paste the copied source snippet into the `viewDidLoad` function: 
 
@@ -57,7 +58,21 @@ Else you will have the `ViewController.swift` file and then paste the copied sou
 import Intempt
   override func viewDidLoad() {
         super.viewDidLoad()
-        IntemptTracker.tracking(withOrgId: "Your Organization Id", andSourceId: "Your Source ID", andToken: "Your Token")
+      
+	 //Initialize Intempt SDK
+        let intemptConfig = IntemptConfig(queueEnabled: true, withItemsInQueue: 7, withTimeBuffer: 15, withInitialDelay: 0.3, withInputTextCaptureDisabled: false)
+        IntemptTracker.tracking(withOrgId: "Your Organization Id", withSourceId: "Your Source ID", withToken: "Your Token", withConfig: intemptConfig) { (status, result, error) in
+            if(status) {
+                if let dictResult = result as? [String: Any] {
+                    print(dictResult)
+                }
+            }
+            else {
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        }
 }
 ```
 ### Objective C :
