@@ -108,7 +108,23 @@ Else you will have the `ViewController.m` file and then paste the copied source 
     }];
 }
 ```
-**NOTE**: We used `playground` as Organization ID for testing purpose only. For live app you need to provide an actual Organization ID.
+### Get Organization ID and Source ID
+To get your organization Id and source Id you need to create your account on https://app.intempt.com/ and then go to https://app.intempt.com/sources/ 
+- 1 Create Organization
+- 2 Create Source
+- 3 Copy Source ID, Organization Id and Token in your Xcode app for IntemptSDK initialization. 
+
+<img width="1256" alt="5" src="https://user-images.githubusercontent.com/93919087/144246773-6454df6b-8a38-4494-83a4-49f631f81a5d.png">
+
+### Events Tracking
+
+IntemptSDK track different type events, some of these are default and some are custom, default events are automatically started tracking when SDK is initialize and for custom events developer have to write code whereever required. Below types events are in IntemptSDK
+- Application Launch Tracking (Default, automatically tracked)
+- Screen Tracking (Default, automatically tracked)
+- Interaction Tracking (Default, automatically tracked)
+- Consent (Default, automatically tracked)
+- Location (Depending on application, if user of the app has allowed location permission then country, city level location is tracked)
+- Identity (Manual, Developer have to implement it)
 
 #### Get VisitorId From Framework
 
@@ -125,8 +141,20 @@ IntemptTracker.identify("test@example.com", withProperties: nil) { (status, erro
 	}
 }
 ```
-#### Custom event
+#### Custom Event
 On using this a user can create a custom event based on the need of the project and can track the event details with that custom method.
+To add custom event below should be flow
+-1 Visit the Intempt Console https://app.intempt.com/sources/
+-2 Select Organization -> Source -> Schema
+-3 Drag 'Add collection' from the right panel(Schema Builder) to the exisiting collections list
+-5 Drag the 'Add field' to the added collection, add as many fields as required.
+-6 Set field type carefully e.g if the data from app is string and field type set in int then there will be error.
+-7 If you want to link the events with the visitor then add 'visitorId' as foreign key of 'Profile' collection
+
+**Please becarefull when renaming, Collection and Field name 
+always start with small letter**
+<img width="1258" alt="6" src="https://user-images.githubusercontent.com/93919087/144252093-2047820a-5132-4b1f-8aac-08393b1c2001.png">
+
 
 ```swift 
 let arrayData = [{       
@@ -141,6 +169,9 @@ IntemptTracker.track("Online Hotel Booking", withProperties: arrHotelBooking as?
 	}
 }             
 ```
+Schema of above example 'flight-booking' looks like below
+<img width="1265" alt="7" src="https://user-images.githubusercontent.com/93919087/144252300-6f478ddd-07f7-4ea8-9bf5-69fb63fc8c35.png">
+
 
 #### Disable Text Capture
 Call this method if you want to disable capturing input texts like UItextField, UItextView. By default its `false`. Secure entries are also excluded for privacy.
