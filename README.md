@@ -267,7 +267,18 @@ IntemptClient.disableLogging()
 ```
 
 ## Tracking iOS14 and ATTTransportSecurity framework
-Intempt itself does not get IDFA and not use any data for “Tracking” By default. Data is not forwarded to any external services, and is not linked with any third-party data. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custome events which track user or share user data with other then you have to include it.
+Intempt itself does not get IDFA and doesn't track user by default. Data is not forwarded to any external services, and is not linked with any third-party data. Also events captured are not linked to user indentity and not used for user tracking purpose. Analytic are captured to observe the user behavior, viuslations of app usage and improving user experience based on user activities in the app. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custom events which track user or share user data with other then you have to include it.
+
+## Privacy - Location Permission
+IntemptSDK itself doesn't ask user for the location permission and doesn't fetch user location. However IntemptSDK has refence to CoreLocations framework and if the app(where IntemptSDK integrated) already have obtained user consent for Location then IntemptSDK track user location of city, region, country level. As the IntemptSDK has reference to CoreLocations framework so it is required to add `Privacy - Location` in info.plist with explaining the purpose of location fetch and usage.
+
+Go to app's Info.plist file and add the privacy keys.
+
+| Key | Value |
+| ------ | ------ |
+| Privacy - Location Always Usage Description | Location used to track where you are and showing most relevant content to you.|
+| Privacy - Location When In Use Usage Description | Location used to track where you are and showing most relevant content to you |
+| Privacy - Location Always and When In Use Usage Description | Location used to track where you are and showing most relevant content to you |
 
 ## Intempt Proximity
 ### ibeacon does not support Xcode iOS Simulator. You need a real device to test the ibeacon.
@@ -290,9 +301,9 @@ Go to app's Info.plist file and add the privacy keys.
 
 | Key | Value |
 | ------ | ------ |
-| Privacy - Location Always Usage Description | Location used to track where you are |
-| Privacy - Location When In Use Usage Description | Location used to track where you are |
-| Privacy - Location Always and When In Use Usage Description | Location used to track where you are |
+| Privacy - Location Always Usage Description | Location used to track where you are and showing most relevant content to you|
+| Privacy - Location When In Use Usage Description | Location used to track where you are and showing most relevant content to you|
+| Privacy - Location Always and When In Use Usage Description | Location used to track where you are and showing most relevant content to you|
 | Privacy - Bluetooth Always Usage Description | This app uses Bluetooth communication to detect nearby beacons |
 | Privacy - Bluetooth Peripheral Usage Description | This app uses Bluetooth communication to detect nearby beacons |
 
