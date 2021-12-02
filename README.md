@@ -369,7 +369,7 @@ Use this method when you want to identify using beacon API separately.
 * Next set up beacon simulator in each room.
 The room you go to will get the entry and exit value of the room.
 
-##Troubleshooting
+## Troubleshooting
 ### Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.
 If you have used intempt universal framework then you may face this error. To resolve this please follow below steps.
 
@@ -377,6 +377,46 @@ Select your project `Target -> Build Settings` and search `Validate Workspace` S
 
 <img width="1197" alt="9" src="https://user-images.githubusercontent.com/93919087/144417543-af83554d-a041-48db-9ce5-2ddea599bb67.png">
 
+## Appstore uploading issue of invalid unsupported architectures.
 
+If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
+
+```run script
+# skip if we run in debug
+if [ "$CONFIGURATION" == "Debug" ]; then
+echo "Skip frameworks cleaning in debug version"
+exit 0
+fi
+
+APP_PATH="${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/"
+
+# This script loops through the frameworks embedded in the application and
+# removes unused architectures.
+find "$APP_PATH" -name '*.framework' -type d | while read -r FRAMEWORK
+do
+FRAMEWORK_EXECUTABLE_NAME=$(defaults read "$FRAMEWORK/Info.plist" CFBundleExecutable)
+FRAMEWORK_EXECUTABLE_PATH="$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME"
+echo "Executable is $FRAMEWORK_EXECUTABLE_PATH"
+
+EXTRACTED_ARCHS=()
+
+for ARCH in $ARCHS
+do
+echo "Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME"
+lipo -extract "$ARCH" "$FRAMEWORK_EXECUTABLE_PATH" -o "$FRAMEWORK_EXECUTABLE_PATH-$ARCH"
+EXTRACTED_ARCHS+=("$FRAMEWORK_EXECUTABLE_PATH-$ARCH")
+done
+
+echo "Merging extracted architectures: ${ARCHS}"
+lipo -o "$FRAMEWORK_EXECUTABLE_PATH-merged" -create "${EXTRACTED_ARCHS[@]}"
+rm "${EXTRACTED_ARCHS[@]}"
+
+echo "Replacing original executable with thinned version"
+rm "$FRAMEWORK_EXECUTABLE_PATH"
+mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
+
+done
+```
+<img width="1198" alt="10" src="https://user-images.githubusercontent.com/93919087/144419018-82fb85a5-6e4a-402e-90f2-c6bda30039d5.png">
 
 
