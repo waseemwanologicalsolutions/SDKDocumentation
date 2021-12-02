@@ -377,7 +377,7 @@ Select your project `Target -> Build Settings` and search `Validate Workspace` S
 
 <img width="1197" alt="9" src="https://user-images.githubusercontent.com/93919087/144417543-af83554d-a041-48db-9ce5-2ddea599bb67.png">
 
-## Appstore uploading issue of invalid unsupported architectures.
+### Appstore uploading issue of invalid unsupported architectures.
 
 If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
 
@@ -419,4 +419,8 @@ done
 ```
 <img width="1198" alt="10" src="https://user-images.githubusercontent.com/93919087/144419018-82fb85a5-6e4a-402e-90f2-c6bda30039d5.png">
 
+### dyld: Library not loaded: @rpath/Intempt.framework/Intempt
 
+`Intempt.framework` must set to `Embed & Sign`
+
+<img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
