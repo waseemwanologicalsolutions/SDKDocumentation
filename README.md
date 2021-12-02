@@ -1,14 +1,36 @@
+# Table of contents
+1. [Requirements](#Requirements)
+2. [Getting Started](#GettingStarted)
+   1. [Integration](#Integration)
+   2. [Get Organization ID and Source ID](#OrganizationIDandSourceID)
+   3. [Events Tracking](#EventsTracking)
+   4. [Get VisitorId From Framework](#GetVisitorIdFromFramework)
+   5. [Identifying Visitors](#IdentifyingVisitors)
+   6. [Custom Event](#CustomEvent)
+   7. [Disable TextCapture](#DisableTextCapture)
+   8. [Disable Default Event Tracking](#DisableDefaultEventTracking)
+   9. [Enable Default Event Tracking](#EnableDefaultEventTracking)
+   10. [Enable Event Logging](#EnableEventLogging)
+   11. [Disable Event Logging](#DisableEventLogging)
+   12. [iOS14 & ATTTransportSecurity](#iOS14)
+   13. [Privacy Location](#Privacy)
+3. [Troubleshooting](#Troubleshooting)
+   1. [Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.](#Universalframework)
+   2. [Unsupported Architectures](#unsupportedarchitectures)
+   3. [dyld: Library not loaded](#dyldLibrarynotloaded)
 
+
+  
 # Intempt iOS SDK
 
-## Requirements
+## Requirements <a name="Requirements"></a>
 - iOS 12.0+
 - Minimum Xcode 10.0
 
 
-## Getting Started
+## Getting Started <a name="GettingStarted"></a>
 
-### Integration :
+### Integration: <a name="Integration"></a>
 1. At first download sdk from https://github.com/intempt/ios-sdk.git). Then open the folder frameworks. There are three sdks in  this folder **'device' 'simulator'** and **'universal'**. 
 <img width="573" alt="1" src="https://user-images.githubusercontent.com/93919087/144225604-a6e8ca7e-9d0f-4210-ac21-c0d2bd8ac06f.png">
 
@@ -154,7 +176,7 @@ Else you will have the `ViewController.m` file and then paste the copied source 
     }];
 }
 ```
-### Get Organization ID and Source ID
+### Get Organization ID and Source ID <a name="OrganizationIDandSourceID"></a>
 To get your organization Id and source Id you need to create your account on https://app.intempt.com/ and then go to https://app.intempt.com/sources/ 
 - 1 Create Organization
 - 2 Create Source
@@ -162,7 +184,7 @@ To get your organization Id and source Id you need to create your account on htt
 
 <img width="1256" alt="5" src="https://user-images.githubusercontent.com/93919087/144246773-6454df6b-8a38-4494-83a4-49f631f81a5d.png">
 
-### Events Tracking
+### Events Tracking <a name="EventsTracking"></a>
 
 IntemptSDK track different type events, some of these are default and some are custom, default events are automatically started tracking when SDK is initialized and for custom events developer have to write code whereever required. Below types events are in IntemptSDK
 - Application Launch Tracking (Default, automatically tracked)
@@ -173,12 +195,12 @@ IntemptSDK track different type events, some of these are default and some are c
 - Identity (Manual, Developer have to implement it)
 - Custom (Developer have to create schema and implement in app)
 
-#### Get VisitorId From Framework
+#### Get VisitorId From Framework <a name="GetVisitorIdFromFramework"></a>
 
 ``` swift
 let visitorId = IntemptClient.shared()?.getVisitorId()
 ```
-#### Identifying Visitors
+#### Identifying Visitors <a name="IdentifyingVisitors"></a>
 Provide email or phone number.
 
 ``` swift
@@ -188,7 +210,7 @@ IntemptTracker.identify("test@example.com", withProperties: nil) { (status, erro
 	}
 }
 ```
-#### Custom Event
+#### Custom Event <a name="CustomEvent"></a>
 On using this a user can create a custom event based on the need of the project and can track the event details with that custom method.
 To add custom event below should be flow
 
@@ -232,44 +254,44 @@ Schema of above example 'flight-booking' looks like below
 <img width="1265" alt="7" src="https://user-images.githubusercontent.com/93919087/144252300-6f478ddd-07f7-4ea8-9bf5-69fb63fc8c35.png">
 
 
-#### Disable Text Capture
+#### Disable Text Capture <a name="DisableTextCapture"></a>
 Call this method if you want to disable capturing input texts like UItextField, UItextView. By default its `false`. Secure entries are also excluded for privacy.
 
 ```swift 
 IntemptTracker.disableTextInput(true)
 ```
 
-#### Disable Default Event Tracking
+#### Disable Default Event Tracking <a name="DisableDefaultEventTracking"></a>
 Call this method if you want to disable default tracking. This action is persistent, once disabled then developer must need to enable again when want to track default events again.
 
 ```swift 
 IntemptClient.disableTracking()
 ```
 
-#### Enable Default Event Tracking
+#### Enable Default Event Tracking <a name="EnableDefaultEventTracking"></a>
 Call this method if you had disabled tracking and want to enable again.
 
 ```swift 
 IntemptClient.enableTracking()
 ```
 
-#### Enable Event Logging
+#### Enable Event Logging <a name="EnableEventLogging"></a>
 Call this method if you want to see the logs of all generated events, errors for debug purposes. By default logging is disabled
 
 ```swift 
 IntemptClient.enableLogging()
 ```
-#### Disable Event Logging
+#### Disable Event Logging <a name="DisableEventLogging"></a>
 Call this method if you want not see any output in console.
 
 ```swift 
 IntemptClient.disableLogging()
 ```
 
-## Tracking iOS14 and ATTTransportSecurity framework
+## Tracking iOS14 and ATTTransportSecurity framework <a name="iOS14"></a>
 Intempt itself does not get IDFA and doesn't track user by default. Data is not forwarded to any external services, and is not linked with any third-party data. Also events captured are not linked to user indentity and not used for user tracking purpose. Analytic are captured to observe the user behavior, viuslations of app usage and improving user experience based on user activities in the app. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custom events which track user or share user data with other then you have to include it.
 
-## Privacy - Location Permission
+## Privacy - Location Permission <a name="Privacy"></a>
 IntemptSDK itself doesn't ask user for the location permission and doesn't fetch user location. However IntemptSDK has refence to CoreLocations framework and if the app(where IntemptSDK integrated) already have obtained user consent for Location then IntemptSDK track user location of city, region, country level. As the IntemptSDK has reference to CoreLocations framework so it is required to add `Privacy - Location` in info.plist with explaining the purpose of location fetch and usage.
 
 Go to app's Info.plist file and add the privacy keys.
@@ -380,15 +402,15 @@ Use this method when you want to identify using beacon API separately.
 * Next set up beacon simulator in each room.
 The room you go to will get the entry and exit value of the room.
 
-## Troubleshooting
-### Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.
+## Troubleshooting <a name="Troubleshooting"></a>
+### Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator. <a name="Universalframework"></a>
 If you have used intempt universal framework then you may face this error. To resolve this please follow below steps.
 
 Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
 
 <img width="1197" alt="9" src="https://user-images.githubusercontent.com/93919087/144417543-af83554d-a041-48db-9ce5-2ddea599bb67.png">
 
-### Appstore uploading issue of invalid unsupported architectures.
+### Appstore uploading issue of invalid unsupported architectures. <a name="unsupportedarchitectures"></a>
 
 If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
 
@@ -430,7 +452,7 @@ done
 ```
 <img width="1198" alt="10" src="https://user-images.githubusercontent.com/93919087/144419018-82fb85a5-6e4a-402e-90f2-c6bda30039d5.png">
 
-### dyld: Library not loaded: @rpath/Intempt.framework/Intempt
+### dyld: Library not loaded: @rpath/Intempt.framework/Intempt  <a name="dyldLibrarynotloaded"></a>
 
 `Intempt.framework` must set to `Embed & Sign`
 
