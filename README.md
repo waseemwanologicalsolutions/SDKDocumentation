@@ -12,6 +12,9 @@
 1. At first download sdk from https://github.com/intempt/ios-sdk.git). Then open the folder frameworks. There are three sdks in  this folder **'device' 'simulator'** and **'universal'**. 
 <img width="573" alt="1" src="https://user-images.githubusercontent.com/93919087/144225604-a6e8ca7e-9d0f-4210-ac21-c0d2bd8ac06f.png">
 
+- **Simulator** will run only on simulators
+- **Device** will run only on devices
+- **Universal** will run on both simulators and devices, but for that there are two extra things need to do during integration. Given integration steps are for universal so please follow all steps inorder to run without any error.
 
 2. Open **universal** folder and Drag & Drop `Intempt.Framework` in your iOS app.
 <img width="1417" alt="2" src="https://user-images.githubusercontent.com/93919087/144225626-73c69b69-cc2f-4f91-8b46-e7d832871460.png">
@@ -20,8 +23,51 @@
 3. `Intempt.framework` must set to `Embed & Sign`
 <img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
 
+4. Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
 
+<img width="1197" alt="9" src="https://user-images.githubusercontent.com/93919087/144417543-af83554d-a041-48db-9ce5-2ddea599bb67.png">
 
+5. If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
+
+```run script
+# skip if we run in debug
+if [ "$CONFIGURATION" == "Debug" ]; then
+echo "Skip frameworks cleaning in debug version"
+exit 0
+fi
+
+APP_PATH="${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/"
+
+# This script loops through the frameworks embedded in the application and
+# removes unused architectures.
+find "$APP_PATH" -name '*.framework' -type d | while read -r FRAMEWORK
+do
+FRAMEWORK_EXECUTABLE_NAME=$(defaults read "$FRAMEWORK/Info.plist" CFBundleExecutable)
+FRAMEWORK_EXECUTABLE_PATH="$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME"
+echo "Executable is $FRAMEWORK_EXECUTABLE_PATH"
+
+EXTRACTED_ARCHS=()
+
+for ARCH in $ARCHS
+do
+echo "Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME"
+lipo -extract "$ARCH" "$FRAMEWORK_EXECUTABLE_PATH" -o "$FRAMEWORK_EXECUTABLE_PATH-$ARCH"
+EXTRACTED_ARCHS+=("$FRAMEWORK_EXECUTABLE_PATH-$ARCH")
+done
+
+echo "Merging extracted architectures: ${ARCHS}"
+lipo -o "$FRAMEWORK_EXECUTABLE_PATH-merged" -create "${EXTRACTED_ARCHS[@]}"
+rm "${EXTRACTED_ARCHS[@]}"
+
+echo "Replacing original executable with thinned version"
+rm "$FRAMEWORK_EXECUTABLE_PATH"
+mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
+
+done
+```
+<img width="1198" alt="10" src="https://user-images.githubusercontent.com/93919087/144419018-82fb85a5-6e4a-402e-90f2-c6bda30039d5.png">
+
+If you have followed the above 5 steps then you will be able to compile without any error.
 
 ### Swift :
 If Xcode 11.3 or above
@@ -153,6 +199,8 @@ To add custom event below should be flow
 - 6 Set field type carefully e.g if the data from app is string and field type set in int then there will be error.
 - 7 If you want to link the events with the visitor then add 'visitorId' as foreign key of 'Profile' collection
 
+Every custom event schema must have `timestamp of type long` and `eventId of type string` fields, otherwise your custom event will not be saved and you will get bad request error.
+
 **Please becarefull when renaming, Collection and Field name 
 always start with small letter**
 
@@ -218,7 +266,7 @@ Call this method if you want not see any output in console.
 IntemptClient.disableLogging()
 ```
 
-#### Tracking iOS14 and ATTTransportSecurity framework
+## Tracking iOS14 and ATTTransportSecurity framework
 Intempt itself does not get IDFA and not use any data for “Tracking” By default. Data is not forwarded to any external services, and is not linked with any third-party data. So with the default configuration there is no need for adding Apple Tracking Transparency permission in info.plist and asking user consent. Also don't include Apple Tracking Transparency framework in your app. However if your app has other external integrations or you have implemented custome events which track user or share user data with other then you have to include it.
 
 ## Intempt Proximity
@@ -321,8 +369,13 @@ Use this method when you want to identify using beacon API separately.
 * Next set up beacon simulator in each room.
 The room you go to will get the entry and exit value of the room.
 
+##Troubleshooting
+### Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.
+If you have used intempt universal framework then you may face this error. To resolve this please follow below steps.
 
+Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
 
+<img width="1197" alt="9" src="https://user-images.githubusercontent.com/93919087/144417543-af83554d-a041-48db-9ce5-2ddea599bb67.png">
 
 
 
