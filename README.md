@@ -18,6 +18,7 @@
    1. [Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.](#Universalframework)
    2. [Unsupported Architectures](#unsupportedarchitectures)
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
+   4. [Intempt no such module found](#nosuchmodulefound)
 
 
   
@@ -48,6 +49,7 @@
 <img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
 
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
+
 <img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
 
 4. Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
@@ -460,5 +462,23 @@ done
 ### dyld: Library not loaded: @rpath/Intempt.framework/Intempt  <a name="dyldLibrarynotloaded"></a>
 
 `Intempt.framework` must set to `Embed & Sign`
+
+<img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
+
+### Intempt no such module found <a name="nosuchmodulefound"></a>
+
+Sometimes xcode behaves strange and not link properly, so first delete `Intempt.framework` from your project, `clean build` and delete `Drived Data`
+then again follow belwo steps to add framework
+
+Open **universal** folder and first copy `Intempt.Framework` into your project directory and then Drag & Drop `Intempt.Framework` in your iOS app.
+<img width="1417" alt="2" src="https://user-images.githubusercontent.com/93919087/144225626-73c69b69-cc2f-4f91-8b46-e7d832871460.png">
+<img width="1244" alt="3" src="https://user-images.githubusercontent.com/93919087/144225684-83c33889-52e1-4f0f-adbb-1806cbb55d44.png">
+
+`Intempt.framework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.framework`
+
+<img width="1384" alt="Screenshot 2021-12-03 at 12 03 27 PM" src="https://user-images.githubusercontent.com/93919087/144560781-315a6e00-4dc0-44ca-92f5-6905442bf714.png">
+<img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
+
+make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
 
 <img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
