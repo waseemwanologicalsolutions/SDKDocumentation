@@ -38,11 +38,16 @@
 - **Device** will run only on devices
 - **Universal** will run on both simulators and devices, but for that there are two extra things need to do during integration. Given integration steps are for universal so please follow all steps inorder to run without any error.
 
-2. Open **universal** folder and Drag & Drop `Intempt.Framework` in your iOS app.
+2. Open **universal** folder and first copy `Intempt.Framework` into your project directory and then Drag & Drop `Intempt.Framework` in your iOS app.
 <img width="1417" alt="2" src="https://user-images.githubusercontent.com/93919087/144225626-73c69b69-cc2f-4f91-8b46-e7d832871460.png">
 <img width="1244" alt="3" src="https://user-images.githubusercontent.com/93919087/144225684-83c33889-52e1-4f0f-adbb-1806cbb55d44.png">
 
-3. `Intempt.framework` must set to `Embed & Sign`
+3. `Intempt.framework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.framework`
+
+<img width="1384" alt="Screenshot 2021-12-03 at 12 03 27 PM" src="https://user-images.githubusercontent.com/93919087/144560781-315a6e00-4dc0-44ca-92f5-6905442bf714.png">
+<img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
+
+make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
 <img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
 
 4. Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
