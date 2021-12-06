@@ -55,7 +55,8 @@ make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed
 
 4. Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
 
-<img width="1197" alt="9" src="https://user-images.githubusercontent.com/93919087/144417543-af83554d-a041-48db-9ce5-2ddea599bb67.png">
+<img width="1389" alt="Validate Workspace" src="https://user-images.githubusercontent.com/93919087/144861179-642d1a07-948a-4e12-ab21-ae84df9fb92c.png">
+
 
 5. If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
 
