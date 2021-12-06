@@ -45,7 +45,8 @@
 
 3. `Intempt.framework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.framework`
 
-<img width="1384" alt="Screenshot 2021-12-03 at 12 03 27 PM" src="https://user-images.githubusercontent.com/93919087/144560781-315a6e00-4dc0-44ca-92f5-6905442bf714.png">
+<img width="1384" alt="adding Intempt into Build Phase" src="https://user-images.githubusercontent.com/93919087/144842029-09e9454d-3990-4265-9086-2d8bd2b3fc97.png">
+
 <img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
 
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
@@ -476,7 +477,7 @@ Open **universal** folder and first copy `Intempt.Framework` into your project d
 
 `Intempt.framework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.framework`
 
-<img width="1384" alt="Screenshot 2021-12-03 at 12 03 27 PM" src="https://user-images.githubusercontent.com/93919087/144560781-315a6e00-4dc0-44ca-92f5-6905442bf714.png">
+<img width="1384" alt="adding Intempt into Build Phase" src="https://user-images.githubusercontent.com/93919087/144842029-09e9454d-3990-4265-9086-2d8bd2b3fc97.png">
 <img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
 
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
