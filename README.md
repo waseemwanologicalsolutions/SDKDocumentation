@@ -261,7 +261,9 @@ let arrayData = [{
         }
 }             
 ```
-Schema of above example 'flight-booking' looks like above screenshot
+Schema of above example 'flight-booking' looks like below screenshot
+
+<img width="1391" alt="flight-Booking Collection" src="https://user-images.githubusercontent.com/93919087/144866546-27b62a61-ef6f-4830-a879-080448c9c077.png">
 
 
 #### Disable Text Capture <a name="DisableTextCapture"></a>
