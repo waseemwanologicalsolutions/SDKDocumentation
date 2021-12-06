@@ -191,7 +191,8 @@ To get your organization Id and source Id you need to create your account on htt
 - 2 Create Source
 - 3 Copy Source ID, Organization Id and Token in your Xcode app for IntemptSDK initialization. 
 
-<img width="1256" alt="5" src="https://user-images.githubusercontent.com/93919087/144246773-6454df6b-8a38-4494-83a4-49f631f81a5d.png">
+<img width="1389" alt="Source Creation" src="https://user-images.githubusercontent.com/93919087/144863636-d986410c-b87a-4ba0-b33a-d68b2c934d4c.png">
+
 
 ### Events Tracking <a name="EventsTracking"></a>
 
@@ -228,14 +229,15 @@ To add custom event below should be flow
 - 3 Drag 'Add collection' from the right panel(Schema Builder) to the exisiting collections list
 - 5 Drag the 'Add field' to the added collection, add as many fields as required.
 - 6 Set field type carefully e.g if the data from app is string and field type set in int then there will be error.
-- 7 If you want to link the events with the visitor then add 'visitorId' as foreign key of 'Profile' collection
+- 7 If you want to link the events with the visitor session then add 'sessionId' as foreign key of 'Session' collection into that collection
 
 Every custom event schema must have `timestamp of type long` and `eventId of type string` fields, otherwise your custom event will not be saved and you will get bad request error.
 
 **Please becarefull when renaming, Collection and Field name 
 always start with small letter**
 
-<img width="1258" alt="6" src="https://user-images.githubusercontent.com/93919087/144252093-2047820a-5132-4b1f-8aac-08393b1c2001.png">
+
+<img width="1389" alt="Source Creation" src="https://user-images.githubusercontent.com/93919087/144866139-72f099f8-bd2f-4d56-a432-dff499ae2a77.png">
 
 
 ```swift 
@@ -259,8 +261,7 @@ let arrayData = [{
         }
 }             
 ```
-Schema of above example 'flight-booking' looks like below
-<img width="1265" alt="7" src="https://user-images.githubusercontent.com/93919087/144252300-6f478ddd-07f7-4ea8-9bf5-69fb63fc8c35.png">
+Schema of above example 'flight-booking' looks like above screenshot
 
 
 #### Disable Text Capture <a name="DisableTextCapture"></a>
