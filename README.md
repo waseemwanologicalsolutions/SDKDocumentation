@@ -237,7 +237,7 @@ Every custom event schema must have `timestamp of type long` and `eventId of typ
 always start with small letter**
 
 
-<img width="1389" alt="Source Creation" src="https://user-images.githubusercontent.com/93919087/144866139-72f099f8-bd2f-4d56-a432-dff499ae2a77.png">
+<img width="1391" alt="flight-Booking Collection" src="https://user-images.githubusercontent.com/93919087/144866546-27b62a61-ef6f-4830-a879-080448c9c077.png">
 
 
 ```swift 
@@ -263,7 +263,8 @@ let arrayData = [{
 ```
 Schema of above example 'flight-booking' looks like below screenshot
 
-<img width="1391" alt="flight-Booking Collection" src="https://user-images.githubusercontent.com/93919087/144866546-27b62a61-ef6f-4830-a879-080448c9c077.png">
+<img width="1424" alt="demo collection" src="https://user-images.githubusercontent.com/93919087/144867290-490923a9-f383-49fd-adb3-08f3e9e996d4.png">
+
 
 
 #### Disable Text Capture <a name="DisableTextCapture"></a>
