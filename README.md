@@ -12,15 +12,18 @@
    9. [Enable Default Event Tracking](#EnableDefaultEventTracking)
    10. [Enable Event Logging](#EnableEventLogging)
    11. [Disable Event Logging](#DisableEventLogging)
-   12. [iOS14 & ATTTransportSecurity](#iOS14)
-   13. [Privacy Location](#Privacy)
+   12. [Reset Tracking Session](#ResetTrackingSession)
+   13. [End Tracking Session](#EndTrackingSession)
+   14. [Start Tracking Session](#StartTrackingSession)
+   15. [iOS14 & ATTTransportSecurity](#iOS14)
+   16. [Privacy Location](#Privacy)
 3. [Troubleshooting](#Troubleshooting)
    1. [Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator.](#Universalframework)
    2. [Unsupported Architectures](#unsupportedarchitectures)
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
    4. [Intempt no such module found](#nosuchmodulefound)
 
-
+ <a name="ResetTrackingSession"></a>
   
 # Intempt iOS SDK
 
@@ -299,6 +302,25 @@ Call this method if you want not see any output in console.
 
 ```swift 
 IntemptClient.disableLogging()
+```
+
+#### Reset Tracking Session <a name="ResetTrackingSession"></a>
+Call this method in order to reset tracking session. It will end previous session and start new session.
+
+```swift 
+IntemptClient.shared().validateTrackingSession()
+```
+#### End Tracking Session <a name="EndTrackingSession"></a>
+Call this method in order to end tracking session.
+
+```swift 
+IntemptClient.shared().endTrackingSession()
+```
+#### Start Tracking Session <a name="StartTrackingSession"></a>
+Call this method in order to start a new tracking session.
+
+```swift 
+IntemptClient.shared().startTrackingSession()
 ```
 
 ## Tracking iOS14 and ATTTransportSecurity framework <a name="iOS14"></a>
