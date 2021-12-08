@@ -23,8 +23,7 @@
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
    4. [Intempt no such module found](#nosuchmodulefound)
 
- <a name="ResetTrackingSession"></a>
-  
+
 # Intempt iOS SDK
 
 ## Requirements <a name="Requirements"></a>
