@@ -22,6 +22,7 @@
    2. [Unsupported Architectures](#unsupportedarchitectures)
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
    4. [Intempt no such module found](#nosuchmodulefound)
+   5. [No data visible on app.intempt.com](#nodatafound)
 
 
 # Intempt iOS SDK
@@ -411,3 +412,7 @@ Open **universal** folder and first copy `Intempt.Framework` into your project d
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
 
 <img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
+
+### No data visible on app.intempt.com console dashboard <a name="nodatafound"></a>
+
+For performance and efficiency purpose IntemptSDK send events as batch periodically, it may take few seconds to appear your events on console.
