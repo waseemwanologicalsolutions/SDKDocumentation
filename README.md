@@ -23,7 +23,7 @@
    3. [dyld: Library not loaded](#dyldLibrarynotloaded)
    4. [Intempt no such module found](#nosuchmodulefound)
    5. [No data visible on app.intempt.com](#nodatafound)
-   6. [Events not sending taking too long](#sendingtakingtoolong)
+   6. [Events not sending, taking too long](#sendingtakingtoolong)
 
 
 
@@ -419,7 +419,7 @@ make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed
 
 For performance and efficiency purpose IntemptSDK send events as batch periodically, it may take few seconds to appear your events on console.
 
-### Events not sending taking too long <a name="sendingtakingtoolong"></a>
+### Events not sending, taking too long <a name="sendingtakingtoolong"></a>
 
 if you see your events are captured and shown in log in debug mode but sent too late on intempt server, then in such case you need to check two below things in your intemptSDK initalization.
 - `TimeBuffer' its value is in seconds, if sdk send data to server periodically based on value of this parameter
