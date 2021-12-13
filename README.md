@@ -297,7 +297,6 @@ Go to app's Info.plist file and add the privacy keys.
 
 ## Troubleshooting <a name="Troubleshooting"></a>
 ### Building for iOS, but the linked and embedded framework 'Intempt.xcframework' was built for iOS + iOS Simulator. <a name="Universalframework"></a>
-If you have used intempt universal framework then you may face this error. To resolve this please follow below steps.
 
 Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
 
