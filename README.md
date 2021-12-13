@@ -37,73 +37,28 @@
 ## Getting Started <a name="GettingStarted"></a>
 
 ### Integration: <a name="Integration"></a>
-1. At first download sdk from https://github.com/intempt/ios-sdk.git). Then open the folder frameworks. There are three sdks in  this folder **'device' 'simulator'** and **'universal'**. 
-<img width="573" alt="1" src="https://user-images.githubusercontent.com/93919087/144225604-a6e8ca7e-9d0f-4210-ac21-c0d2bd8ac06f.png">
+1. At first download Intempt framework from https://github.com/intempt/ios-sdk.git). Then open the folder framework.
 
-- **Simulator** will run only on simulators
-- **Device** will run only on devices
-- **Universal** will run on both simulators and devices, but for that there are two extra things need to do during integration. Given integration steps are for universal so please follow all steps inorder to run without any error.
+<img width="744" alt="Intempt-1" src="https://user-images.githubusercontent.com/93919087/145824539-80247046-222b-4b69-9b7c-2bdc2f77b21d.png">
 
-2. Open **universal** folder and first copy `Intempt.Framework` into your project directory and then Drag & Drop `Intempt.Framework` in your iOS app.
-<img width="1417" alt="2" src="https://user-images.githubusercontent.com/93919087/144225626-73c69b69-cc2f-4f91-8b46-e7d832871460.png">
-<img width="1244" alt="3" src="https://user-images.githubusercontent.com/93919087/144225684-83c33889-52e1-4f0f-adbb-1806cbb55d44.png">
+2. Copy `Intempt.xcframework` into your project directory and then Drag & Drop `Intempt.xcframework` in your iOS app.
 
-3. `Intempt.framework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.framework`
+<img width="1425" alt="Intempt-2" src="https://user-images.githubusercontent.com/93919087/145825555-07eb669d-1798-4a80-9d9d-70139a49dbd3.png">
 
-<img width="1384" alt="adding Intempt into Build Phase" src="https://user-images.githubusercontent.com/93919087/144842029-09e9454d-3990-4265-9086-2d8bd2b3fc97.png">
+<img width="1430" alt="Intempt-3" src="https://user-images.githubusercontent.com/93919087/145825583-75b6114a-438a-424a-87f8-49e05aef8501.png">
 
-<img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
+3. `Intempt.xcframework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.xcframework`
+
+<img width="1428" alt="Intempt-4" src="https://user-images.githubusercontent.com/93919087/145825905-aee4d0c9-7495-475e-9c13-bc8902d8942a.png">
+
+<img width="1427" alt="Intempt-5" src="https://user-images.githubusercontent.com/93919087/145825947-6d3e3d83-dad3-4c0e-9bb5-05c521939f82.png">
 
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
 
-<img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
-
-4. Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
-
-<img width="1389" alt="Validate Workspace" src="https://user-images.githubusercontent.com/93919087/144861179-642d1a07-948a-4e12-ab21-ae84df9fb92c.png">
+<img width="1164" alt="Intempt-6" src="https://user-images.githubusercontent.com/93919087/145826005-2b46dbfc-2486-4ab7-a407-5fd2c36384c8.png">
 
 
-5. If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
-
-```run script
-# skip if we run in debug
-if [ "$CONFIGURATION" == "Debug" ]; then
-echo "Skip frameworks cleaning in debug version"
-exit 0
-fi
-
-APP_PATH="${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/"
-
-# This script loops through the frameworks embedded in the application and
-# removes unused architectures.
-find "$APP_PATH" -name '*.framework' -type d | while read -r FRAMEWORK
-do
-FRAMEWORK_EXECUTABLE_NAME=$(defaults read "$FRAMEWORK/Info.plist" CFBundleExecutable)
-FRAMEWORK_EXECUTABLE_PATH="$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME"
-echo "Executable is $FRAMEWORK_EXECUTABLE_PATH"
-
-EXTRACTED_ARCHS=()
-
-for ARCH in $ARCHS
-do
-echo "Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME"
-lipo -extract "$ARCH" "$FRAMEWORK_EXECUTABLE_PATH" -o "$FRAMEWORK_EXECUTABLE_PATH-$ARCH"
-EXTRACTED_ARCHS+=("$FRAMEWORK_EXECUTABLE_PATH-$ARCH")
-done
-
-echo "Merging extracted architectures: ${ARCHS}"
-lipo -o "$FRAMEWORK_EXECUTABLE_PATH-merged" -create "${EXTRACTED_ARCHS[@]}"
-rm "${EXTRACTED_ARCHS[@]}"
-
-echo "Replacing original executable with thinned version"
-rm "$FRAMEWORK_EXECUTABLE_PATH"
-mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
-
-done
-```
-<img width="1198" alt="10" src="https://user-images.githubusercontent.com/93919087/144419018-82fb85a5-6e4a-402e-90f2-c6bda30039d5.png">
-
-If you have followed the above 5 steps then you will be able to compile without any error.
+If you have followed the above 3 steps then you will be able to compile without any error on device or simulator.
 
 ### Swift :
 If Xcode 11.3 or above
@@ -341,7 +296,7 @@ Go to app's Info.plist file and add the privacy keys.
 
 
 ## Troubleshooting <a name="Troubleshooting"></a>
-### Building for iOS, but the linked and embedded framework 'Intempt.framework' was built for iOS + iOS Simulator. <a name="Universalframework"></a>
+### Building for iOS, but the linked and embedded framework 'Intempt.xcframework' was built for iOS + iOS Simulator. <a name="Universalframework"></a>
 If you have used intempt universal framework then you may face this error. To resolve this please follow below steps.
 
 Select your project `Target -> Build Settings` and search `Validate Workspace` Set Value to NO, if its already NO, then set to YES once and then set again to NO. This is workaround as sometimes xcode doesn't understand, so toggeling the value between YES/NO it worked.
@@ -351,7 +306,7 @@ Select your project `Target -> Build Settings` and search `Validate Workspace` S
 
 ### Appstore uploading issue of invalid unsupported architectures. <a name="unsupportedarchitectures"></a>
 
-If you have added `intempt.framework` as `universal` then when submitting to app store Apple will show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
+`Intempt.xcframework` is `universal` and it supports Simulators and Devices both, when submitting to app store Apple may show error of simulator architectures. To resolve this issue please select your project `Target -> Build Phase` and select `+` sign and add `New Run Script Phase`. It will add an empty runscript below, expand it and put the below script as shown in below screen shot.
 
 ```run script
 # skip if we run in debug
@@ -391,29 +346,34 @@ done
 ```
 <img width="1198" alt="10" src="https://user-images.githubusercontent.com/93919087/144419018-82fb85a5-6e4a-402e-90f2-c6bda30039d5.png">
 
-### dyld: Library not loaded: @rpath/Intempt.framework/Intempt  <a name="dyldLibrarynotloaded"></a>
+### dyld: Library not loaded: @rpath/Intempt.xcframework/Intempt  <a name="dyldLibrarynotloaded"></a>
 
-`Intempt.framework` must set to `Embed & Sign`
+`Intempt.xcframework` must set to `Embed & Sign`
 
-<img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
+<img width="1164" alt="Intempt-6" src="https://user-images.githubusercontent.com/93919087/145826639-32ac72a6-7e7b-46e6-93dc-198a838e10c3.png">
+
 
 ### Intempt no such module found <a name="nosuchmodulefound"></a>
 
-Sometimes xcode behaves strange and not link properly, so first delete `Intempt.framework` from your project, `clean build` and delete `Drived Data`
+Sometimes xcode behaves strange and not link properly, so first delete `Intempt.xcframework` from your project, `clean build` and delete `Drived Data`
 then again follow belwo steps to add framework
 
-Open **universal** folder and first copy `Intempt.Framework` into your project directory and then Drag & Drop `Intempt.Framework` in your iOS app.
-<img width="1417" alt="2" src="https://user-images.githubusercontent.com/93919087/144225626-73c69b69-cc2f-4f91-8b46-e7d832871460.png">
-<img width="1244" alt="3" src="https://user-images.githubusercontent.com/93919087/144225684-83c33889-52e1-4f0f-adbb-1806cbb55d44.png">
+Open folder containg `Intempt.xcframework` and first copy `Intempt.xcframework` into your project directory and then Drag & Drop `Intempt.xcframework` in your iOS app.
 
-`Intempt.framework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.framework`
+<img width="1425" alt="Intempt-2" src="https://user-images.githubusercontent.com/93919087/145826967-7df7ebf2-1184-4fde-b0e8-aa457ec9d5a8.png">
+
+<img width="1428" alt="Intempt-4" src="https://user-images.githubusercontent.com/93919087/145827003-4ac3026e-3297-4e8a-b51f-c9b4824f3f19.png">
+
+
+`Intempt.xcframework` must set to `Embed & Sign`, Select your project `Traget -> Build Phase` expand `Embed Framework` and press `+` add `Intempt.xcframework`
 
 <img width="1384" alt="adding Intempt into Build Phase" src="https://user-images.githubusercontent.com/93919087/144842029-09e9454d-3990-4265-9086-2d8bd2b3fc97.png">
 <img width="1378" alt="Screenshot 2021-12-03 at 12 04 13 PM" src="https://user-images.githubusercontent.com/93919087/144560810-03b1c091-2060-448f-a257-8e7fb0ae6527.png">
 
 make sure in `Target ->General->Framework, Libraries and Embded Contents` `Embed & Sign` is selected.
 
-<img width="1243" alt="4" src="https://user-images.githubusercontent.com/93919087/144225710-c4b4c9d0-a24f-4fc6-97ae-c82834185d27.png">
+<img width="1164" alt="Intempt-6" src="https://user-images.githubusercontent.com/93919087/145827206-2f51eca6-6254-4773-af49-b5e7d8b160f4.png">
+
 
 ### No data visible on app.intempt.com console dashboard <a name="nodatafound"></a>
 
